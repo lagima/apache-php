@@ -1,19 +1,35 @@
-FROM ubuntu:16.04
+FROM ubuntu:trusty
+MAINTAINER Deepak Sinnamani <skdeepak.nz@gmail.com>
 
-# Install dependencies
-RUN apt-get update -y
-RUN apt-get install -y git curl apache2 php7.0 libapache2-mod-php7.0 php7.0-mcrypt php7.0-mysql
+# Install base packages
+RUN apt-get update && \
+    DEBIAN_FRONTEND=noninteractive apt-get -yq install \
+        curl \
+        apache2 \
+        libapache2-mod-php7.0 \
+        php7.0-mysql \
+        php7.0-mcrypt \
+        php7.0-gd \
+        php7.0-curl \
+        php-pear \
+        php-apc && \
+    rm -rf /var/lib/apt/lists/* && \
+    curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
-# Install app
-RUN rm -rf /var/www/*
+RUN /usr/sbin/php7enmod mcrypt
+RUN echo "ServerName localhost" >> /etc/apache2/apache2.conf && \
+    sed -i "s/variables_order.*/variables_order = \"EGPCS\"/g" /etc/php5/apache2/php.ini
 
-# Configure apache
-RUN a2enmod rewrite
-RUN chown -R www-data:www-data /var/www
-ENV APACHE_RUN_USER www-data
-ENV APACHE_RUN_GROUP www-data
-ENV APACHE_LOG_DIR /var/log/apache2
+ENV ALLOW_OVERRIDE **False**
+
+# Add image configuration and scripts
+ADD run.sh /run.sh
+RUN chmod 755 /*.sh
+
+# Configure /app folder with sample app
+RUN mkdir -p /app && rm -fr /var/www/html && ln -s /app /var/www/html
+ADD sample/ /app
 
 EXPOSE 80
-
-CMD ["/usr/sbin/apache2", "-D",  "FOREGROUND"]
+WORKDIR /app
+CMD ["/run.sh"]
