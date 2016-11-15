@@ -1,4 +1,4 @@
-FROM ubuntu:trusty
+FROM ubuntu:16.04
 MAINTAINER Deepak Sinnamani <skdeepak.nz@gmail.com>
 
 # Install base packages
@@ -12,13 +12,15 @@ RUN apt-get update && \
         php7.0-gd \
         php7.0-curl \
         php-pear \
-        php-apc && \
+        php-apcu && \
     rm -rf /var/lib/apt/lists/* && \
     curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
-RUN /usr/sbin/php7enmod mcrypt
+RUN apt-get clean
+
+RUN /usr/sbin/phpenmod mcrypt
 RUN echo "ServerName localhost" >> /etc/apache2/apache2.conf && \
-    sed -i "s/variables_order.*/variables_order = \"EGPCS\"/g" /etc/php5/apache2/php.ini
+    sed -i "s/variables_order.*/variables_order = \"EGPCS\"/g" /etc/php/7.0/apache2/php.ini
 
 ENV ALLOW_OVERRIDE **False**
 
