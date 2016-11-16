@@ -13,7 +13,6 @@ RUN apt-get update && \
         php7.0-curl \
         php-pear \
         php-apcu && \
-        composer && \
     rm -rf /var/lib/apt/lists/* && \
 
 # Clean the apt cache
