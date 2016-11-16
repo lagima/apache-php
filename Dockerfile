@@ -32,7 +32,7 @@ RUN chmod 755 /*.sh
 RUN mkdir -p /app && rm -fr /var/www/html && ln -s /app /var/www/html
 ADD sample/ /app
 
-RUN usermod -u www-data www-data
+RUN usermod -u 33 www-data
 
 # Custom config to handle logs
 ADD config/apache.conf /etc/apache2/sites-available/000-default.conf
