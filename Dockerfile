@@ -12,11 +12,11 @@ RUN apt-get update && \
         php7.0-gd \
         php7.0-curl \
         php-pear \
-        php-apcu && \
-    rm -rf /var/lib/apt/lists/* && \
+        php-apcu
 
 # Clean the apt cache
 RUN apt-get clean
+RUN rm -rf /var/lib/apt/lists/*
 
 RUN /usr/sbin/phpenmod mcrypt
 RUN echo "ServerName localhost" >> /etc/apache2/apache2.conf && \
