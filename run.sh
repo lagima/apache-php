@@ -10,4 +10,4 @@ fi
 
 source /etc/apache2/envvars
 tail -F /var/log/apache2/* &
-exec service apache2 restart
+exec apache2 -D FOREGROUND
