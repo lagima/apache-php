@@ -35,7 +35,7 @@ ADD sample/ /app
 RUN usermod -u www-data www-data
 
 # Custom config to handle logs
-ADD apache.conf /etc/apache2/sites-available/000-default.conf
+ADD config/apache.conf /etc/apache2/sites-available/000-default.conf
 RUN service apache2 restart
 
 EXPOSE 80
