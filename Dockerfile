@@ -13,9 +13,10 @@ RUN apt-get update && \
         php7.0-curl \
         php-pear \
         php-apcu && \
+        composer && \
     rm -rf /var/lib/apt/lists/* && \
-    curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
+# Clean the apt cache
 RUN apt-get clean
 
 RUN /usr/sbin/phpenmod mcrypt
@@ -32,7 +33,9 @@ RUN chmod 755 /*.sh
 RUN mkdir -p /app && rm -fr /var/www/html && ln -s /app /var/www/html
 ADD sample/ /app
 
-#RUN service apache2 restart
+# Custom config to handle logs
+ADD apache.conf /etc/apache2/sites-available/000-default.conf
+RUN service apache2 restart
 
 EXPOSE 80
 WORKDIR /app
