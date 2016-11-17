@@ -14,17 +14,13 @@ RUN apt-get update && \
         php-pear \
         php-apcu
 
-RUN /usr/sbin/phpenmod mcrypt
-RUN echo "ServerName localhost" >> /etc/apache2/apache2.conf && \
-    sed -i "s/variables_order.*/variables_order = \"EGPCS\"/g" /etc/php/7.0/apache2/php.ini
-
-# For sendmail
-RUN apt-get -yq install sendmail
-ADD scripts/sendmail.sh /home/sendmail.sh
-
 # Clean the apt cache
 RUN apt-get clean
 RUN rm -rf /var/lib/apt/lists/*
+
+RUN /usr/sbin/phpenmod mcrypt
+RUN echo "ServerName localhost" >> /etc/apache2/apache2.conf && \
+    sed -i "s/variables_order.*/variables_order = \"EGPCS\"/g" /etc/php/7.0/apache2/php.ini
 
 ENV ALLOW_OVERRIDE **False**
 
