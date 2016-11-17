@@ -14,18 +14,22 @@ RUN apt-get update && \
         php-pear \
         php-apcu
 
-# Clean the apt cache
-RUN apt-get clean
-RUN rm -rf /var/lib/apt/lists/*
-
 RUN /usr/sbin/phpenmod mcrypt
 RUN echo "ServerName localhost" >> /etc/apache2/apache2.conf && \
     sed -i "s/variables_order.*/variables_order = \"EGPCS\"/g" /etc/php/7.0/apache2/php.ini
 
+# For sendmail
+RUN apt-get -yq install sendmail
+ADD scripts/sendmail.sh /home/sendmail.sh
+
+# Clean the apt cache
+RUN apt-get clean
+RUN rm -rf /var/lib/apt/lists/*
+
 ENV ALLOW_OVERRIDE **False**
 
 # Add image configuration and scripts
-ADD run.sh /run.sh
+ADD scripts/run.sh /run.sh
 RUN chmod 755 /*.sh
 
 # Configure /app folder with sample app
