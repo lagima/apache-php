@@ -12,7 +12,8 @@ RUN apt-get update && \
         php7.0-gd \
         php7.0-curl \
         php-pear \
-        php-apcu
+        php-apcu \
+        php-soap
 
 # Clean the apt cache
 RUN apt-get clean
