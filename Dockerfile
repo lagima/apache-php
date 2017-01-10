@@ -13,7 +13,8 @@ RUN apt-get update && \
         php7.0-curl \
         php-pear \
         php-apcu \
-        php-soap
+        php-soap \
+        php-zip
 
 # SSL packages
 RUN apt-get install -y libcurl4-openssl-dev
