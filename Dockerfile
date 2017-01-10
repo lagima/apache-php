@@ -19,6 +19,9 @@ RUN apt-get update && \
 RUN apt-get install -y libcurl4-openssl-dev
 RUN apt-get install -y pkg-config libssl-dev libsslcommon2-dev
 
+# Install composer
+RUN curl -sS https://getcomposer.org/installer | sudo php -- --install-dir=/usr/local/bin --filename=composer
+
 # Clean the apt cache
 RUN apt-get clean
 RUN rm -rf /var/lib/apt/lists/*
