@@ -24,6 +24,7 @@ RUN apt-get update && \
         libapache2-mod-php7.1 \
         php7.1-mysql \
         php7.1-mcrypt \
+        php7.1-mbstring \
         php7.1-gd \
         php7.1-curl \
         php-pear \
@@ -64,6 +65,7 @@ RUN usermod -u 33 www-data
 RUN a2enmod expires
 RUN a2enmod headers
 RUN phpenmod mcrypt
+RUN phpenmod mbstring
 RUN a2enmod proxy
 RUN a2enmod proxy_http
 RUN a2enmod proxy_ajp
