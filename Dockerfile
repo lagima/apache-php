@@ -18,15 +18,14 @@ RUN add-apt-repository ppa:ondrej/php -y
 RUN apt-get remove php7.0
 RUN apt-get update && \
     DEBIAN_FRONTEND=noninteractive apt-get -yq install \
-        php7.1 \
+        php7.2 \
         curl \
         apache2 \
-        libapache2-mod-php7.1 \
-        php7.1-mysql \
-        php7.1-mcrypt \
-        php7.1-mbstring \
-        php7.1-gd \
-        php7.1-curl \
+        libapache2-mod-php7.2 \
+        php7.2-mysql \
+        php7.2-mbstring \
+        php7.2-gd \
+        php7.2-curl \
         php-pear \
         php-apcu \
         php-soap \
@@ -48,7 +47,7 @@ RUN rm -rf /var/lib/apt/lists/*
 
 RUN /usr/sbin/phpenmod mcrypt
 RUN echo "ServerName localhost" >> /etc/apache2/apache2.conf && \
-    sed -i "s/variables_order.*/variables_order = \"EGPCS\"/g" /etc/php/7.1/apache2/php.ini
+    sed -i "s/variables_order.*/variables_order = \"EGPCS\"/g" /etc/php/7.2/apache2/php.ini
 
 ENV ALLOW_OVERRIDE **False**
 
